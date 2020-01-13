@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <cassert>
 #include <pugixml.hpp>
@@ -7,6 +8,9 @@
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/ostreamwrapper.h>
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/copy.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
 using namespace boost::algorithm;
 using namespace std;
 using namespace pugi;
@@ -162,12 +166,21 @@ void parseDescriptorRecordSet(const xml_node& node, const char* outfile) {
 
 int main(int argc, char** argv) {
     if(argc <= 2) { // <= (number of expected CLI arguments)
-        fprintf(stderr, "Usage: %s <input XML file> <output JSON file>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <input .xml.gz file> <output JSON file>\n", argv[0]);
         return -1;
     }
     
+    // Open "raw" gzipped data stream
+    ifstream file(argv[1], ios_base::in | ios_base::binary);
+    // Configure decompressor filter
+    boost::iostreams::filtering_streambuf<boost::iostreams::input> inbuf;
+    inbuf.push(boost::iostreams::gzip_decompressor());
+    inbuf.push(file);
+    //Convert streambuf to istream
+    istream instream(&inbuf);
+    // Parse from stream
     xml_document doc;
-    xml_parse_result result = doc.load_file(argv[1]);
+    xml_parse_result result = doc.load(instream);
 
     parseDescriptorRecordSet(doc.child("DescriptorRecordSet"), argv[2]);
 }

@@ -13,7 +13,7 @@ The format is a GZ-compressed JSON-Lines format, i.e. one JSON (representing one
 
 ## How to use (manual mode)
 
-First, download the current MeSH dump in XML format from the [bulk data](https://www.nlm.nih.gov/databases/download/mesh.html) download page - for example, `desc2020.xml`.
+First, download the current MeSH dump in gzipped XML format from the [bulk data](https://www.nlm.nih.gov/databases/download/mesh.html) download page - for example, `desc2020.gz`.
 
 Secondly, clone & compile MeSH-JSON. You need to install [rapidjson-dev](https://rapidjson.org/) and [PugiXML](https://pugixml.org/) and CMake plus the usual G++ stuff, e.g. using `sudo apt install -y rapidjson-dev libpugixml-dev cmake build-essential` on Ubuntu):
 ```sh
@@ -25,7 +25,7 @@ make
 
 Now you can run *MeSH-JSON*:
 ```
-./mesh-json ~/Downloads/desc2020.xml ~/Downloads/desc2020.json
+./mesh-json ~/Downloads/desc2020.gz ~/Downloads/desc2020.json
 ```
 
 *MeSH-JSON* will just take a couple of seconds to process the XML and convert it into a JSON containing roughly the same information. In the current version, some metadata like the date of the records isn't parsed (feel free to add it and submit a pull request).
