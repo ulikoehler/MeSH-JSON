@@ -12,6 +12,6 @@ However, if you just try to parse the entire file in Python, e.g. using `lxml`, 
 Additionally, many developers consider memory and CPU *too cheap to bother* and hence don't care about optimization whatsoever. Part of this is due to lack of skill and experience in optimizing an application without either making it too complex or slowing down the development too much. In my opinion, much of this issue stems from the lack of appropriate copy-to-paste-ready examples that use faster technology (e.g. PugiXML & C++ instead of LXML & Python for the raw parsing work), but in case such examples exist, it is often worthwhile to do it in a more efficient way to prevent secondary issues that occur only later in the development process.
 
 Hence, the *MeSH-JSON* project attempts to:
-# Provide the MeSH datadump in a ready-to-use [JSON-Lines](http://jsonlines.org/) format (one MeSH descriptor per line)
-# Provide an example of how large XML datasets can be parsed and processed to JSON easily using PugiXML & RapidJSON
-# Provide documentation on common issues encountered along the way on my Blog [TechOverflow](https://techoverflow.net)
+* Provide the MeSH datadump in a ready-to-use [JSON-Lines](http://jsonlines.org/) format (one MeSH descriptor per line)
+* Provide an example of how large XML datasets can be parsed and processed to JSON easily using PugiXML & RapidJSON
+* Provide documentation on common issues encountered along the way on my Blog [TechOverflow](https://techoverflow.net)
