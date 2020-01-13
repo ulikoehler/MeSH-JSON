@@ -1,5 +1,5 @@
 # MeSH-JSON
-Lightning-fast [MeSH (NCBI Medical Subject Headings)](](https://www.ncbi.nlm.nih.gov/mesh) database [bulk data](https://www.nlm.nih.gov/databases/download/mesh.html) reader &amp; JSON lines converter
+Lightning-fast [MeSH (NCBI Medical Subject Headings)](https://www.ncbi.nlm.nih.gov/mesh) database [bulk data](https://www.nlm.nih.gov/databases/download/mesh.html) reader &amp; JSON lines converter
 
 ## Rationale
 
