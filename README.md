@@ -1,5 +1,34 @@
 # MeSH-JSON
-Lightning-fast [MeSH (NCBI Medical Subject Headings)](https://www.ncbi.nlm.nih.gov/mesh) database [bulk data](https://www.nlm.nih.gov/databases/download/mesh.html) reader &amp; JSON lines converter
+Lightning-fast [MeSH (NCBI Medical Subject Headings)](https://www.ncbi.nlm.nih.gov/mesh) database [bulk data](https://www.nlm.nih.gov/databases/download/mesh.html) reader &amp; JSON lines converter.
+
+## Just want the data?
+
+Download here: [https://techoverflow.net/downloads/desc2020.json.gz](https://techoverflow.net/downloads/desc2020.json.gz)
+or
+```sh
+wget "https://techoverflow.net/downloads/desc2020.json.gz"
+```
+
+The format is a GZ-compressed JSON-Lines format, i.e. one JSON (representing one MeSH descriptor) per line.
+
+## How to use (manual mode)
+
+First, download the current MeSH dump in XML format from the [bulk data](https://www.nlm.nih.gov/databases/download/mesh.html) download page - for example, `desc2020.xml`.
+
+Secondly, clone & compile MeSH-JSON. You need to install [rapidjson-dev](https://rapidjson.org/) and [PugiXML](https://pugixml.org/) and CMake plus the usual G++ stuff, e.g. using `sudo apt install -y rapidjson-dev libpugixml-dev cmake build-essential` on Ubuntu):
+```sh
+git clone https://github.com/ulikoehler/MeSH-JSON.git
+cd MeSH-JSON
+cmake .
+make
+```
+
+Now you can run *MeSH-JSON*:
+```
+./mesh-json ~/Downloads/desc2020.xml ~/Downloads/desc2020.json
+```
+
+*MeSH-JSON* will just take a couple of seconds to process the XML and convert it into a JSON containing roughly the same information. In the current version, some metadata like the date of the records isn't parsed (feel free to add it and submit a pull request).
 
 ## Rationale
 
