@@ -113,6 +113,7 @@ Document parseConceptList(const xml_node& conceptList) {
         // Add JSON entries
         doc.AddMember("id", Value().SetString(id, jsonAlloc), jsonAlloc);
         doc.AddMember("name", Value().SetString(name, jsonAlloc), jsonAlloc);
+        doc.AddMember("isPreferred", Value().SetBool(isPreferred), jsonAlloc);
         doc.AddMember("note", Value().SetString(
             trimmedNote.c_str(), trimmedNote.size(), jsonAlloc), jsonAlloc);
         if(!string(casn1Name).empty()) {
