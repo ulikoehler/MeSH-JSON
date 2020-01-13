@@ -7,6 +7,7 @@
 #include <rapidjson/writer.h>
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/ostreamwrapper.h>
+#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/copy.hpp>
@@ -134,9 +135,12 @@ Document parseDescriptorRecord(const xml_node& node) {
     doc.SetObject();
     auto id = node.child("DescriptorUI").child_value();
     auto name = node.child("DescriptorName").child("String").child_value();
+    auto cls = node.attribute("DescriptorClass").value();
     // Add JSON entries
     doc.AddMember("id", Value().SetString(id, jsonAlloc), jsonAlloc);
     doc.AddMember("name", Value().SetString(name, jsonAlloc), jsonAlloc);
+    doc.AddMember("class", Value().SetInt(
+        boost::lexical_cast<int>(cls)), jsonAlloc);
     // Parse qualifiers & concepts
     doc.AddMember("qualifiers", parseQualifierList(node.child("AllowableQualifiersList")), jsonAlloc);
     doc.AddMember("concepts", parseConceptList(node.child("ConceptList")), jsonAlloc);
