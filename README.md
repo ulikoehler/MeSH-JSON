@@ -15,7 +15,7 @@ The format is a GZ-compressed JSON-Lines format, i.e. one JSON (representing one
 
 First, download the current MeSH dump in gzipped XML format from the [bulk data](https://www.nlm.nih.gov/databases/download/mesh.html) download page - for example, `desc2020.gz`.
 
-Secondly, clone & compile MeSH-JSON. You need to install [rapidjson-dev](https://rapidjson.org/) and [PugiXML](https://pugixml.org/) and CMake plus the usual G++ stuff, e.g. using `sudo apt install -y rapidjson-dev libpugixml-dev cmake build-essential` on Ubuntu):
+Secondly, clone & compile MeSH-JSON. You need to install [rapidjson-dev](https://rapidjson.org/) and [PugiXML](https://pugixml.org/) and CMake plus the usual G++ stuff, e.g. using `sudo apt install -y rapidjson-dev libpugixml-dev cmake build-essential libboost-iostreams-dev` on Ubuntu):
 ```sh
 git clone https://github.com/ulikoehler/MeSH-JSON.git
 cd MeSH-JSON
