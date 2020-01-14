@@ -3,10 +3,11 @@ Lightning-fast [MeSH (NCBI Medical Subject Headings)](https://www.ncbi.nlm.nih.g
 
 ## Just want the data?
 
-Download here: [https://techoverflow.net/downloads/desc2020.json.gz](https://techoverflow.net/downloads/desc2020.json.gz)
+Download here: [https://techoverflow.net/downloads/desc2020.json.gz](https://techoverflow.net/downloads/desc2020.json.gz) and [https://techoverflow.net/downloads/supp2020.json.gz](https://techoverflow.net/downloads/supp2020.json.gz)
 or
 ```sh
 wget "https://techoverflow.net/downloads/desc2020.json.gz"
+wget "https://techoverflow.net/downloads/supp2020.json.gz"
 ```
 
 The format is a GZ-compressed JSON-Lines format, i.e. one JSON (representing one MeSH descriptor) per line.
