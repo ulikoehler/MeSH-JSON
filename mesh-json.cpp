@@ -44,9 +44,9 @@ Document parseConceptRelationList(const xml_node& conceptRelationList, const str
         string relName = relation.attribute("RelationName").value();
         // These three are mutually exclusive
         // See https://www.nlm.nih.gov/mesh/xml_data_elements.html
-        bool broader = relName == "BRD";
-        bool narrower = relName == "NRW";
-        bool related = relName == "REL";
+        bool broader = relName == "BRD" || relName == "brd";
+        bool narrower = relName == "NRW" || relName == "nrw";
+        bool related = relName == "REL" || relName == "rel";
         // Assumption: Concept2UI is always the other concept
         // (this assumption is checked)
         string c1ui = relation.child("Concept1UI").child_value();
@@ -147,6 +147,23 @@ Document parseDescriptorRecord(const xml_node& node) {
     return doc;
 }
 
+Document parseSupplementalRecord(const xml_node& node) {
+    Document doc(kObjectType);
+    auto id = node.child("SupplementalRecordUI").child_value();
+    auto name = node.child("SupplementalRecordName").child("String").child_value();
+    auto cls = node.attribute("SCRClass").value();
+    // Add JSON entries
+    doc.AddMember("id", Value().SetString(id, jsonAlloc), jsonAlloc);
+    doc.AddMember("name", Value().SetString(name, jsonAlloc), jsonAlloc);
+    doc.AddMember("class", Value().SetInt(
+        boost::lexical_cast<int>(cls)), jsonAlloc);
+    // Parse qualifiers & concepts
+    // TODO Parse HeadingMappedToList
+    // TODO Parse IndexingInformationList
+    doc.AddMember("concepts", parseConceptList(node.child("ConceptList")), jsonAlloc);
+    return doc;
+}
+
 void parseDescriptorRecordSet(const xml_node& node, const char* outfile) {
     // Write JSON to file
     FILE* fout = fopen(outfile, "w");
@@ -164,6 +181,29 @@ void parseDescriptorRecordSet(const xml_node& node, const char* outfile) {
         }
         first = false;
     }
+    os.Flush(); 
+    // Cleanup
+    fclose(fout);
+}
+
+void parseSupplementalRecordSet(const xml_node& node, const char* outfile) {
+    // Write JSON to file
+    FILE* fout = fopen(outfile, "w");
+    char writeBuffer[65536];
+    FileWriteStream os(fout, writeBuffer, sizeof(writeBuffer));
+ 
+    bool first = true;
+    for(const auto& child : node.children()) {
+        Writer<FileWriteStream> writer(os); // Writer may only be used once !
+        auto doc = parseSupplementalRecord(child);
+        doc.Accept(writer);
+        // Separate JSONs with newline character
+        if(!first) {
+            os.Put('\n');
+        }
+        first = false;
+    }
+    os.Flush();
     // Cleanup
     fclose(fout);
 }
@@ -186,7 +226,11 @@ int main(int argc, char** argv) {
     xml_document doc;
     xml_parse_result result = doc.load(instream);
 
-    if(!doc.child("DescriptorRecordSet").empty()) {
+    if(doc.child("DescriptorRecordSet")) {
+        cout << "Parsing descriptor record file..." << endl;
         parseDescriptorRecordSet(doc.child("DescriptorRecordSet"), argv[2]);
+    } else if(doc.child("SupplementalRecordSet")) {
+        cout << "Parsing supplemental record file..." << endl;
+        parseSupplementalRecordSet(doc.child("SupplementalRecordSet"), argv[2]);
     }
 }
