@@ -186,5 +186,7 @@ int main(int argc, char** argv) {
     xml_document doc;
     xml_parse_result result = doc.load(instream);
 
-    parseDescriptorRecordSet(doc.child("DescriptorRecordSet"), argv[2]);
+    if(!doc.child("DescriptorRecordSet").empty()) {
+        parseDescriptorRecordSet(doc.child("DescriptorRecordSet"), argv[2]);
+    }
 }
