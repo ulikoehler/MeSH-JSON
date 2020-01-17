@@ -10,6 +10,9 @@ wget "https://techoverflow.net/downloads/desc2020.json.gz"
 wget "https://techoverflow.net/downloads/supp2020.json.gz"
 ```
 
+You can also download a map from *MeSH ID* (like `D059630`) to *MeSH term* (like `Mesenchymal Stem Cells
+`): [https://techoverflow.net/downloads/mesh.json.gz](https://techoverflow.net/downloads/mesh.json.gz).
+
 The format is a GZ-compressed JSON-Lines format, i.e. one JSON (representing one MeSH descriptor) per line.
 
 ## How to use (manual mode)
