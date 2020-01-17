@@ -174,11 +174,11 @@ void parseDescriptorRecordSet(const xml_node& node, const char* outfile) {
     for(const auto& child : node.children()) {
         Writer<FileWriteStream> writer(os); // Writer may only be used once !
         auto doc = parseDescriptorRecord(child);
-        doc.Accept(writer);
         // Separate JSONs with newline character
         if(!first) {
             os.Put('\n');
         }
+        doc.Accept(writer);
         first = false;
     }
     os.Flush(); 
